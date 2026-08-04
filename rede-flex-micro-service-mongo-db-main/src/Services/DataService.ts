@@ -208,9 +208,7 @@ export async function getItensTotaisPorPosto(
           },
         },
       },
-
-      
-     {
+      {
         $group: {
           _id: {
             data: {
@@ -222,9 +220,9 @@ export async function getItensTotaisPorPosto(
             },
             ibm: '$ibm'
           },
-          total: { // <-- Mudou de totalVol para total
+          total: { 
             $sum: {
-              $toDouble: '$items.tot', // <-- Somando o valor financeiro do item (igual à calcProductByDates)
+              $toDouble: '$items.tot',
             },
           },
         },
@@ -237,8 +235,8 @@ export async function getItensTotaisPorPosto(
     ],
   });
 
-return (result as any).reduce(
-    (acc: any, item: any) => ({ ...acc, [`${item._id.ibm}_${item._id.data}`]: item.total }), // <-- Usando item.total aqui
+  return (result as any).reduce(
+    (acc: any, item: any) => ({ ...acc, [`${item._id.ibm}_${item._id.data}`]: item.total }),
     {},
   );
 }
