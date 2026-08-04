@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/clientLBCBi"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URLLBCBi")
+}
+
+model Combustiveis {
+  id    String   @id @default(auto()) @map("_id") @db.ObjectId
+  anp   String?
+  bicm  String?
+  cBar  String
+  cTo   String?
+  capT  String
+  cof   String?
+  cus   String
+  dLmc  String
+  del   String
+  des   String
+  dtHr  DateTime @db.Date
+  eTo   String?
+  ibm   String
+  icm   String?
+  id_   String   @map("id")
+  ncm   String?
+  pis   String?
+  sig   String
+  st    String?
+  stDtI String
+  tCom  String
+  vda   String
+}
+
+model FormasPg {
+  id   String   @id @default(auto()) @map("_id") @db.ObjectId
+  ban  String
+  cVd  String
+  des  String
+  dtHr DateTime @db.Date
+  ibm  String
+  id_  String   @map("id")
+  tip  String
+}
+
+model Lojas {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  cnpj         String
+  dtHr         DateTime @db.Date
+  ibm          String
+  nomeFantasia String
+  razaoSocial  String
+  rede         String
+}
+
+model Produtos {
+  id   String   @id @default(auto()) @map("_id") @db.ObjectId
+  St   String?
+  cBar String
+  cNcm String?
+  cus  String?
+  des  String
+  dtHr DateTime @db.Date
+  eDe  String?
+  eMa  String?
+  eMi  String?
+  eOl  String?
+  ePi  String?
+  eTo  String?
+  gr   String?
+  ibm  String?
+  icm  String?
+  id_  String   @map("id")
+  sgr  String?
+  st   String?
+  uCx  String?
+  unM  String?
+  vda  String?
+}
+
+model Produtos_Grupos {
+  id   String   @id @default(auto()) @map("_id") @db.ObjectId
+  des  String?
+  dtHr DateTime @db.Date
+  ibm  String
+  id_  String   @map("id")
+}
+
+model Turnos {
+  id   String   @id @default(auto()) @map("_id") @db.ObjectId
+  des  String
+  dtHr DateTime @db.Date
+  ibm  String
+  id_  String   @map("id")
+}
+
+model Usuarios {
+  id   String   @id @default(auto()) @map("_id") @db.ObjectId
+  cel  String?
+  cod  String
+  cpf  String
+  dtHr DateTime @db.Date
+  ibm  String
+  id_  String   @map("id")
+  nom  String
+  sex  String?
+}

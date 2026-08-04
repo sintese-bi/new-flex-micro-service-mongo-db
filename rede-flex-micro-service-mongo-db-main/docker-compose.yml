@@ -1,0 +1,31 @@
+version: '3'
+name: 'rede-flex-microsservico-mongodb'
+
+services:
+  dev:
+    container_name: rede-flex-microsservico-mongodb-dev
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: rede-flex/microsservico-mongodb-dev
+    volumes:
+      - ./:/app
+      - ./src/server.js:/server.js
+    ports:
+      - '3052:3052'
+
+  prod:
+    container_name: rede-flex-microsservico-mongodb
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: rede-flex/microsservico-mongodb
+    volumes:
+      - ./:/app
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    ports:
+      - '3052:3052'
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

@@ -1,0 +1,48 @@
+{
+  "name": "MicroService-MongoDB",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/sintese-bi/MicroService-MongoDB.git",
+  "author": "Eloy <eloymjunior00@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/luxon": "^3.7.1",
+    "@types/node-cron": "^3.0.11",
+    "@types/nodemailer": "^6.4.15",
+    "@types/uuid": "^10.0.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.5.2"
+  },
+  "scripts": {
+    "generate": "npx prisma generate",
+    "deploy": "npx prisma migrate deploy",
+    "dev": "prisma generate --schema=./prisma/schemaLBCBi.prisma && prisma generate --schema=./prisma/schemaSalesMonitor.prisma && prisma generate --schema=./prisma/schemaRedeFlex.prisma && prisma generate --schema=./prisma/schemaGasMonitor.prisma && ts-node-dev --respawn --inspect=4321 --transpile-only --ignore-watch node_modules src/server.ts",
+    "build": "tsup src",
+    "start": "node dist/server.js",
+    "prod": "pm2 start dist/server.js --name rede-flex-micro-service-mongo-db --env production --time --instances 4"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.15.1",
+    "axios": "^1.7.2",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "luxon": "^3.7.2",
+    "moment": "^2.30.1",
+    "moment-timezone": "^0.5.45",
+    "mongodb": "^6.7.0",
+    "node-cron": "^3.0.3",
+    "nodemailer": "^6.9.14",
+    "pm2": "^5.4.2",
+    "prisma": "^5.15.1",
+    "tsup": "^8.5.0",
+    "uuid": "^10.0.0"
+  }
+}

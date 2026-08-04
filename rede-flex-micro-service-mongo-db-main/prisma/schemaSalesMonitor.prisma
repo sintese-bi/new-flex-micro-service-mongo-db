@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/clientSales"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URLSALES")
+}
+
+type VendasFormaspg {
+  dtV DateTime @db.Date
+  fCd String
+  fId String
+  seq String
+  vl  String
+}
+
+type VendasItems {
+  aIcm   String?
+  bId    String
+  bLmc   String
+  cB     String
+  codG   String
+  dI     String
+  dtA    DateTime @db.Date
+  iId    String
+  iTip   String
+  isIcSt String
+  isIs   String
+  isNI   String
+  pC     String
+  pTb    String
+  pUn    String
+  qd     String
+  seq    String
+  st     String
+  tot    String
+  vId    String
+}
+
+model Vendas {
+  id       String           @id @default(auto()) @map("_id") @db.ObjectId
+  cdT      String
+  clId     String?
+  cpf      String?
+  dCh      String
+  dPr      String
+  dTE      String
+  dTa      String
+  dtHr     DateTime         @db.Date
+  fcId     String
+  formaspg VendasFormaspg[]
+  ibm      String
+  id_      String           @map("id")
+  idC      String
+  idT      String
+  items    VendasItems[]
+  mod      String
+  nCf      String
+  nEc      String
+  pl       String?
+  st       String
+  tot      String
+  vId      String
+  ver      String
+   @@index([dtHr], name: "index_dtHr")
+}

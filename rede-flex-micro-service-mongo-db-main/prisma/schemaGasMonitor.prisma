@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/clientGasMonitor"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL_GAS_MONITOR")
+}
+
+model Abastecimentos {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  originId  String?  @map("origin_id") @db.ObjectId
+
+  bId       String
+  cus       Float
+  dtHr      DateTime @db.Date
+  enc       Float
+  ibm       String
+  id_       String   @map("id") // para não conflitar com o @id
+  lmc       Int
+  ori       String
+  ppl       Float
+  sig       String
+  val       Float
+  ven       String
+  vol       Float
+}
