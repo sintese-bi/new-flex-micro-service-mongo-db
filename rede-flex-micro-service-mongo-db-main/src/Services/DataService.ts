@@ -208,23 +208,26 @@ export async function getItensTotaisPorPosto(
           },
         },
       },
-    
-      {
-         $group: {
-  _id: {
-    data: {
-      $dateToString: {
-        format: '%Y-%m-%d',
-        date: '$dtHr',
-        timezone: '-00:00',
-      },
-    },
-    ibm: '$ibm'
-  },
-  totalVol: { // ou 'total' na segunda função
-    $sum: '$vol',
-  },
-},
+
+      
+     {
+        $group: {
+          _id: {
+            data: {
+              $dateToString: {
+                format: '%Y-%m-%d',
+                date: '$dtHr',
+                timezone: '-00:00',
+              },
+            },
+            ibm: '$ibm'
+          },
+          total: { // <-- Mudou de totalVol para total
+            $sum: {
+              $toDouble: '$items.tot', // <-- Somando o valor financeiro do item (igual à calcProductByDates)
+            },
+          },
+        },
       },
       {
         $sort: {
@@ -234,8 +237,8 @@ export async function getItensTotaisPorPosto(
     ],
   });
 
-  return (result as any).reduce(
-  (acc: any, item: any) => ({ ...acc, [`${item._id.ibm}_${item._id.data}`]: item.totalVol }),
-  {},
-);
+return (result as any).reduce(
+    (acc: any, item: any) => ({ ...acc, [`${item._id.ibm}_${item._id.data}`]: item.total }), // <-- Usando item.total aqui
+    {},
+  );
 }
