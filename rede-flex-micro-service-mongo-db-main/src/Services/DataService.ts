@@ -148,18 +148,21 @@ export async function getVolumePorPosto(
         },
       },
       {
-        $group: {
-          _id: {
-            $dateToString: {
-              format: '%Y-%m-%d',
-              date: '$dtHr',
-              timezone: '-00:00',
-            }, '$ibm' 
-          },
-          totalVol: {
-            $sum: '$vol',
-          },
-        },
+          $group: {
+  _id: {
+    data: {
+      $dateToString: {
+        format: '%Y-%m-%d',
+        date: '$dtHr',
+        timezone: '-00:00',
+      },
+    },
+    ibm: '$ibm'
+  },
+  totalVol: { // ou 'total' na segunda função
+    $sum: '$vol',
+  },
+},
       },
       {
         $sort: {
@@ -169,10 +172,10 @@ export async function getVolumePorPosto(
     ],
   });
 
-  return (result as any).reduce(
-    (acc: any, item: any) => ({ ...acc, [item._id]: item.totalVol }),
-    {},
-  );
+ return (result as any).reduce(
+  (acc: any, item: any) => ({ ...acc, [`${item._id.ibm}_${item._id.data}`]: item.totalVol }),
+  {},
+);
 }
 
 export async function getItensTotaisPorPosto(
@@ -205,21 +208,23 @@ export async function getItensTotaisPorPosto(
           },
         },
       },
+    
       {
-        $group: {
-          _id: {
-            $dateToString: {
-              format: '%Y-%m-%d',
-              date: '$dtHr',
-              timezone: '-00:00',
-            }, '$ibm'
-          },
-          total: {
-            $sum: {
-              $toDouble: '$items.tot',
-            },
-          },
-        },
+         $group: {
+  _id: {
+    data: {
+      $dateToString: {
+        format: '%Y-%m-%d',
+        date: '$dtHr',
+        timezone: '-00:00',
+      },
+    },
+    ibm: '$ibm'
+  },
+  totalVol: { // ou 'total' na segunda função
+    $sum: '$vol',
+  },
+},
       },
       {
         $sort: {
@@ -230,7 +235,7 @@ export async function getItensTotaisPorPosto(
   });
 
   return (result as any).reduce(
-    (acc: any, item: any) => ({ ...acc, [item._id]: item.total }),
-    {},
-  );
+  (acc: any, item: any) => ({ ...acc, [`${item._id.ibm}_${item._id.data}`]: item.totalVol }),
+  {},
+);
 }
