@@ -121,3 +121,116 @@ export async function calcProductByDates(
     {},
   );
 }
+
+export async function getVolumePorPosto(
+  dates: DateTime[],
+  toEndOfDay: boolean,
+): Promise<{ [date: string]: number }> {
+  const result = await prismaGasMonitor.abastecimentos.aggregateRaw({
+    pipeline: [
+      {
+        $match: {
+          ori: { $in: ['0', '1'] },
+          $or: dates.map((originalDate) => {
+            // O deslocamento de 3 horas corrige o fuso horário incorreto que é salvo no banco de dados
+            const date = originalDate.minus({ hours: 3 }).toUTC();
+
+            const start = date.startOf('day').toISO();
+            const end = toEndOfDay ? date.endOf('day').toISO() : date.toISO();
+
+            return {
+              dtHr: {
+                $gte: { $date: start },
+                $lte: { $date: end },
+              },
+            };
+          }),
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: {
+              format: '%Y-%m-%d',
+              date: '$dtHr',
+              timezone: '-00:00',
+            }, '$ibm' 
+          },
+          totalVol: {
+            $sum: '$vol',
+          },
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
+        },
+      },
+    ],
+  });
+
+  return (result as any).reduce(
+    (acc: any, item: any) => ({ ...acc, [item._id]: item.totalVol }),
+    {},
+  );
+}
+
+export async function getItensTotaisPorPosto(
+  dates: DateTime[],
+  toEndOfDay: boolean,
+): Promise<{ [date: string]: number }> {
+  const result = await prismaSales.vendas.aggregateRaw({
+    pipeline: [
+      {
+        $unwind: '$items',
+      },
+      {
+        $match: {
+          $or: dates.map((originalDate) => {
+            // O deslocamento de 3 horas corrige o fuso horário incorreto que é salvo no banco de dados
+            const date = originalDate.minus({ hours: 3 }).toUTC();
+
+            const start = date.startOf('day').toISO();
+            const end = toEndOfDay ? date.endOf('day').toISO() : date.toISO();
+
+            return {
+              dtHr: {
+                $gte: { $date: start },
+                $lte: { $date: end },
+              },
+            };
+          }),
+          'items.iTip': {
+            $eq: '0',
+          },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: {
+              format: '%Y-%m-%d',
+              date: '$dtHr',
+              timezone: '-00:00',
+            }, '$ibm'
+          },
+          total: {
+            $sum: {
+              $toDouble: '$items.tot',
+            },
+          },
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
+        },
+      },
+    ],
+  });
+
+  return (result as any).reduce(
+    (acc: any, item: any) => ({ ...acc, [item._id]: item.total }),
+    {},
+  );
+}
