@@ -1,0 +1,50 @@
+// mobile_columns.ts
+export const mobileColumns = {
+  regional_gallonage: [
+    { key: "Lucro Bruto Operacional Galonagem", label: "LB", type: "percent" },
+    { key: "Resultado Bruto", label: "RB", type: "currency" },
+    { key: "TMC", label: "TMC", type: "currency" },
+    { key: "TMV", label: "TMV", type: "volume" },
+    // { key: "Custo", label: "Custo", type: "currency" },
+    // { key: "Lucro", label: "Lucro", type: "currency" },
+  ],
+  regional_product: [
+    { key: "Lucro Bruto Operacional Produto", label: "LB", type: "percent" },
+    { key: "Resultado Bruto", label: "RB", type: "currency" },
+    { key: "TMP", label: "TMP", type: "currency" },
+  ],
+  fuel: [
+    { key: "name", label: "Posto", type: "text" },
+    { key: "Combustivel", label: "Combustível", type: "text" },
+    { key: "M/LT", label: "M/LT", type: "mlt" },
+    { key: "LBO Combsutivel", label: "LB", type: "percent" },
+    { key: "Lucro", label: "Faturamento", type: "currency" },
+    { key: "Hora da Venda", label: "Hora da Venda", type: "time" },
+  ],
+  workers_gallonage: [
+    { key: "name", label: "Nome", type: "text" },
+    { key: "Regional", label: "Regional", type: "text" },
+    { key: "Posto", label: "Posto", type: "text" },
+    { key: "Combustivel Vendido", label: "Combustível Vendido", type: "text" },
+    { key: "Galonagem", label: "Galonagem", type: "volume" },
+    { key: "Lucro", label: "Margem bruta", type: "currency" },
+  ],
+  workers_products: [
+    { key: "name", label: "Nome", type: "text" },
+    { key: "Regional", label: "Regional", type: "text" },
+    { key: "Posto", label: "Posto", type: "text" },
+    { key: "Produto Vendido", label: "Produto Vendido", type: "text" },
+    { key: "Venda", label: "Faturamento", type: "currency" },
+    { key: "Lucro", label: "Margem bruta", type: "currency" },
+  ],
+  group: [
+    { key: "Posto", label: "Posto", type: "text" },
+    { key: "name", label: "Grupo", type: "text" },
+    { key: "Produto", label: "Produto", type: "text" },
+    { key: "TMP", label: "TMP", type: "currency" },
+    { key: "LBO Produto", label: "LB", type: "percent" },
+    { key: "Faturamento", label: "Faturamento", type: "currency" },
+    { key: "Custo", label: "Custo", type: "currency" },
+    { key: "Lucro", label: "RB", type: "currency" },
+  ],
+};

@@ -1,0 +1,26 @@
+version: "3"
+name: 'rede-flex-frontend'
+
+services:
+  dev:
+    container_name: rede-flex-frontend-dev
+    build: .
+    image: rede-flex/frontend
+    ports:
+      - "3054:3054"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+  prod:
+    container_name: rede-flex-frontend
+    build: .
+    image: rede-flex/frontend
+    ports:
+      - "3054:3054"
+    environment:
+      - NODE_ENV=production
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

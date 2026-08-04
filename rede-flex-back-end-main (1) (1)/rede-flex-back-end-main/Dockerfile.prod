@@ -1,0 +1,25 @@
+FROM node:22-alpine
+
+# Instale o OpenSSL
+RUN apk add --no-cache openssl
+
+WORKDIR /usr/app
+
+COPY package*.json ./
+
+RUN npm install --legacy-peer-deps --production
+
+RUN npm install -g ts-node-dev
+RUN npm install tsup -g   # Instalação global do tsup
+RUN npm install typescript       # Instalação local para typescript
+COPY . .
+
+RUN npx prisma generate
+
+RUN npm run build
+
+RUN npm install pm2 -g
+
+EXPOSE 3051
+
+CMD ["pm2-runtime", "dist/server.js", "-i", "4"]

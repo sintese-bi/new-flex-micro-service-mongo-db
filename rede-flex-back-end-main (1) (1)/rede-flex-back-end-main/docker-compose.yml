@@ -1,0 +1,32 @@
+version: '3'
+name: 'rede-flex-backend'
+
+services:
+  dev:
+    container_name: rede-flex-backend-dev
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    image: rede-flex/backend-dev
+    volumes:
+      - ./:/app
+      - ./src/server.js:/server.js
+    ports:
+      - '3051:3051'
+   
+
+  prod:
+    container_name: rede-flex-backend
+    build:
+      context: ./
+      dockerfile: Dockerfile.prod
+    image: rede-flex/backend
+    volumes:
+      - ./:/app
+      - ./src/server.js:/server.js
+    ports:
+      - '3051:3051'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    
+      
